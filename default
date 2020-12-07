@@ -1,7 +1,9 @@
+events {
+} 
 http {
 server {
     index index.php;
-    root /var/www/public;
+    root /var/www/html;
 
     add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Credentials' 'true' always;
