@@ -10,8 +10,6 @@ location ~ \.php$ {
 include snippets/fastcgi-php.conf;
 fastcgi_pass unix:/run/php/php7.2-fpm.sock;
 }
-# запретить доступ к файлам .htaccess, если корень документов Apache
-# конфликтует с корнем документов nginx
 #
 # location ~ /\.ht {
 # deny all;
