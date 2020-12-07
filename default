@@ -1,3 +1,4 @@
+http {
 server {
     index index.php;
     root /var/www/public;
@@ -30,4 +31,5 @@ server {
         try_files $uri /index.php?$args;
     }
     listen 80;
+}
 }
