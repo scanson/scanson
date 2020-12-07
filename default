@@ -1,33 +1,19 @@
 server {
-    index index.php;
-    root /var/www/html;
-
-    add_header 'Access-Control-Allow-Origin' '*' always;
-    add_header 'Access-Control-Allow-Credentials' 'true' always;
-    add_header 'Access-Control-Allow-Methods' 'GET,POST,PUT,DELETE,HEAD,OPTIONS' always;
-    add_header 'Access-Control-Allow-Headers' 'Origin,Content-Type,Accept,Authorization' always;
-
-    gzip            on;
-    gzip_min_length 1000;
-    gzip_proxied    expired no-cache no-store private auth;
-    gzip_types      * image/jpeg image/png;
-    gzip_comp_level 9;
-
-    location ~ \.(map)$ {
-        try_files $uri =404;
-    }
-
-    location / {
-        if ($request_method = 'OPTIONS') {
-            add_header 'Access-Control-Allow-Origin' '*' always;
-            add_header 'Access-Control-Allow-Credentials' 'true' always;
-            add_header 'Access-Control-Allow-Methods' 'GET,POST,PUT,DELETE,HEAD,OPTIONS' always;
-            add_header 'Access-Control-Allow-Headers' 'Origin,Content-Type,Accept,Authorization' always;
-            add_header 'Content-Type' 'text/plain charset=UTF-8';
-            add_header 'Content-Length' 0;
-            return 204;
-        }
-        try_files $uri /index.php?$args;
-    }
-    listen 80;
+listen 80 default_server;
+root /var/www/html;
+index index.html index.htm index.nginx-debian.html;
+server_name _;
+location / {
+try_files $uri $uri/ =404;
+}
+location ~ \.php$ {
+include snippets/fastcgi-php.conf;
+fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+}
+# запретить доступ к файлам .htaccess, если корень документов Apache
+# конфликтует с корнем документов nginx
+#
+# location ~ /\.ht {
+# deny all;
+#}
 }
